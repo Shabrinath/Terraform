@@ -1,6 +1,11 @@
+variable "secret_value" {
+  description = "Provide client secret"
+  type = string
+}
+
 provider "azurerm" {
   client_id = "xxxxxx"
-  client_secret = "xxxxxxx"
+  client_secret = var.secret_value
   subscription_id = "xxxxxxx"
   tenant_id = "xxxxxxx"
   features {}
