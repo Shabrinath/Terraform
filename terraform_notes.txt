@@ -1,0 +1,21 @@
+cd /terraform/databricks/objects/sql-warehouse
+terraform apply -input=false -auto-approve \
+  -var environment=dev \
+  -var sql_warehouse_name=wh-a \
+  -var sql_warehouse_sub_app_name=<SubAppName> \
+  -var sql_warehouse_app_master=<AppMaster> \
+  -var sql_warehouse_billing_cluster_name=<BillingClusterName> \
+  -var sql_warehouse_cluster_size=Medium \
+  -var sql_warehouse_auto_stop_mins=10
+
+extra tags are also considered when tags are in tags.auto.tfvars.json 
+For wh-a with extra tags `CostCenter` and `Owner`:
+
+```json
+{
+  "tags": {
+    "CostCenter": "CC1234",
+    "Owner": "jane.doe"
+  }
+}
+```
