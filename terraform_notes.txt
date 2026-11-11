@@ -1,3 +1,29 @@
+--------------------------------------------
+#Deploy Databricks jobs: 
+# One-time: cd into the shared terraform working directory (same for every job)
+cd "$CENTRAL_REPO/terraform/databricks/objects/job"
+
+# 1. Point the backend at job-a's own remote state file, re-initializing providers/backend
+terraform init -input=false -reconfigure \
+  -backend-config="address=https://jfrog.example.com/terraform-state/databricks/dev/job/job-a.tfstate" \
+  -backend-config="update_method=PUT"
+
+# 2. Apply using job-a's tfvars file (lives in a DIFFERENT directory, referenced by full path)
+terraform apply -input=false -auto-approve \
+  -var environment=dev \
+  -var-file="$GITHUB_WORKSPACE/job-tfvars/job-a.tfvars.json"
+
+# 3. Re-point the backend at job-b's own remote state file
+terraform init -input=false -reconfigure \
+  -backend-config="address=https://jfrog.example.com/terraform-state/databricks/dev/job/job-b.tfstate" \
+  -backend-config="update_method=PUT"
+
+# 4. Apply using job-b's tfvars file
+terraform apply -input=false -auto-approve \
+  -var environment=dev \
+  -var-file="$GITHUB_WORKSPACE/job-tfvars/job-b.tfvars.json"
+
+---------------------------------------------
 cd /terraform/databricks/objects/sql-warehouse
 terraform apply -input=false -auto-approve \
   -var environment=dev \
