@@ -24,6 +24,7 @@ terraform apply -input=false -auto-approve \
   -var-file="$GITHUB_WORKSPACE/job-tfvars/job-b.tfvars.json"
 
 ---------------------------------------------
+#Deploy Databricks Sql Warehouse: 
 cd /terraform/databricks/objects/sql-warehouse
 terraform apply -input=false -auto-approve \
   -var environment=dev \
